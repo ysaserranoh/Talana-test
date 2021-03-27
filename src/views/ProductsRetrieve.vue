@@ -1,10 +1,10 @@
 <template>
-  <v-row  v-if="getItems.length">
+  <v-row v-if="getItems.length">
     <v-col cols="12" class="px-0">
       <v-toolbar color="transparent" flat height="55">
         <v-toolbar-title
           class="text--secondary subtitle-1 font-weight-medium d-block"
-          >{{ ((category || []).name || '') }}</v-toolbar-title
+          >{{ (category || []).name || "" }}</v-toolbar-title
         >
       </v-toolbar>
       <v-col class="py-0 px-4">
@@ -23,7 +23,7 @@
       <v-row aling="center" justify="start" class="mx-0">
         <v-col
           style="width: 280px; flex-grow: 0 !important"
-          v-for="item in getItems"
+          v-for="item in getProducts"
           :key="item.title"
         >
           <v-card
@@ -122,7 +122,12 @@ export default {
   computed: {
     ...mapGetters("store", ["getItems", "getCategory"]),
     category() {
-      return this.getCategory[0].find(item => item.id === this.$route.params.id);
+      return this.getCategory[0].find(
+        (item) => item.id === this.$route.params.id
+      );
+    },
+    getProducts() {
+      return this.$route.query.item ? this.getProductSearch() : this.getItems;
     },
   },
   async created() {
@@ -130,6 +135,14 @@ export default {
   },
 
   methods: {
+     getProductSearch() {
+      if (this.$route.query.item) {
+        return this.getItems.filter((item) =>
+           item.name.toUpperCase().includes(this.$route.query.item.toUpperCase()) ||
+            item.category.name.toUpperCase().includes(this.$route.query.item.toUpperCase())
+        );
+      }
+    },
     AddProduct() {
       // this.quantityProduct[item.id.toString()] = this.quantityProduct[item.id.toString()] ? this.quantityProduct[item.id.toString()] - 1 : 1;
     },

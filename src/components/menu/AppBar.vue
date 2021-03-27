@@ -29,8 +29,6 @@ export default {
   components: {
     SearchBar,
   },
-  data: () => ({
-  feedbackLink: 'https://piriod.ithinki.io/b/feedback'
-  }),
+  data: () => ({}),
 };
 </script>

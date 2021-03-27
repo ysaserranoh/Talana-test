@@ -18,6 +18,14 @@ const routes = [
     },
     component: () => import("../views/ProductsRetrieve.vue"),
   },
+  {
+    path: "/product/:id/",
+    name: "CategoryProductRetrieve",
+    meta: {
+      title: "Producto buscados",
+    },
+    component: () => import("../views/ProductsRetrieve.vue"),
+  },
 ];
 
 const router = new VueRouter({
@@ -26,7 +34,9 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title ? to.meta.title + " - Happy mascota" : "Happy mascota";
+  document.title = to.meta.title
+    ? to.meta.title + " - Happy mascota"
+    : "Happy mascota";
   next(true);
 });
 

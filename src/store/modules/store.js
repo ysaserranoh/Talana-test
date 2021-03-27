@@ -29,7 +29,6 @@ const actions = {
   async getItems({ commit }) {
     try {
       commit("setStatus", { loading: true, error: false, message: "" });
-      console.log("store");
       let { data } = await axios.get("http://sva.talana.com:8000/api/product/");
       commit("setItems", data);
       commit("setStatus", { loading: false, error: false, message: "" });
