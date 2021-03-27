@@ -17,8 +17,9 @@
     </v-list-item>
     <v-divider />
     <v-list-item class="ml-2">
-      <v-list-item-title class="title subtitle-1 font-weight-medium">Categorías
-      </v-list-item-title>
+      <v-list-item-title class="title subtitle-1 font-weight-medium"
+        >Categorías</v-list-item-title
+      >
       <v-list-item-icon>
         <v-icon>mdi-menu</v-icon>
       </v-list-item-icon>
@@ -29,18 +30,22 @@
       <v-list-item
         v-for="item in getCategory[0]"
         :key="item.name"
-        :to="{ name: 'CategoryProductRetrieve', params: { id: `${item.id}`} }"
+        :to="{ name: 'CategoryProductRetrieve', params: { id: `${item.id}` }, query: { item: item.name } }"
         style="min-height: 20px"
         active-class="primary--text"
       >
-        <v-list-item-content >
+        <v-list-item-content>
           <v-list-item-title>
             <v-row no-gutters>
               <v-col cols="10" class="pa-0">
                 {{ item.name }}
               </v-col>
               <v-col cols="1" class="pa-0">
-                <v-icon class="mt-n1" v-if="selected === `/products/category/${item.id}`">mdi-chevron-right</v-icon>
+                <v-icon
+                  class="mt-n1"
+                  v-if="selected === `/products/category/${item.id}`"
+                  >mdi-chevron-right</v-icon
+                >
               </v-col>
             </v-row>
           </v-list-item-title>
@@ -55,7 +60,7 @@ import { mapGetters } from "vuex";
 export default {
   data: () => ({
     loading: false,
-    selected: ''
+    selected: "",
   }),
   computed: {
     ...mapGetters("store", ["getCategory"]),
@@ -70,7 +75,7 @@ export default {
       handler: function (val) {
         this.selected = val.path;
       },
-    }
-  }
+    },
+  },
 };
 </script>

@@ -24,7 +24,11 @@
           hide-details
         >
           <template v-slot:prepend-inner>
-            <v-row class="text-center py-3 mr-2" justify="center" align="center">
+            <v-row
+              class="text-center py-3 mr-2"
+              justify="center"
+              align="center"
+            >
               <v-icon class="icon-autocomplete" color="secondary" size="20">mdi-magnify</v-icon>
             </v-row>
           </template>
@@ -71,9 +75,7 @@ export default {
   computed: {
     ...mapGetters("store", ["getItems"]),
     category() {
-      return this.getCategory[0].find(
-        (item) => item.id === this.$route.params.id
-      );
+      return this.getCategory[0].find((item) => item.id === this.$route.params.id);
     },
   },
   watch: {

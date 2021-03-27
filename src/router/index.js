@@ -18,14 +18,14 @@ const routes = [
     },
     component: () => import("../views/ProductsRetrieve.vue"),
   },
-  // {
-  //   path: "/product/:id/",
-  //   name: "CategoryProductRetrieve",
-  //   meta: {
-  //     title: "Producto buscados",
-  //   },
-  //   component: () => import("../views/ProductsRetrieve.vue"),
-  // },
+  {
+    path: "/products",
+    name: "ProductsLists",
+    meta: {
+      title: "Todos los Productos",
+    },
+    component: () => import("../views/ProductsRetrieve.vue"),
+  },
 ];
 
 const router = new VueRouter({

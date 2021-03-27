@@ -75,7 +75,6 @@ export default {
   methods: {
     AddProducttoCart() {
       this.$store.dispatch("store/addToCart", this.currentItem);
-      console.log('DSD', this.currentItem)
     },
   },
 };

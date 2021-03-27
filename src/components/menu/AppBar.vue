@@ -24,7 +24,7 @@
           nudge-bottom="60"
         >
           <template v-slot:activator="{ on, attrs }">
-              <v-btn v-bind="attrs" v-on="on" text>
+            <v-btn v-bind="attrs" v-on="on" text>
               <span>Bolsa</span>
               <v-badge
                 :content="badge"
@@ -35,11 +35,11 @@
               >
                 <v-icon class="text--secondary" size="26"> mdi-purse</v-icon>
               </v-badge>
-              </v-btn>
+            </v-btn>
           </template>
           <DialogPurchaseSummary />
         </v-menu>
-       </v-bottom-navigation>
+      </v-bottom-navigation>
     </v-app-bar>
   </div>
 </template>
@@ -60,6 +60,6 @@ export default {
     badge() {
       return this.getCart.length ? this.getCart.length : "0";
     },
-  }
+  },
 };
 </script>

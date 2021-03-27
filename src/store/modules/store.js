@@ -4,6 +4,8 @@ const state = {
   items: [],
   category: [],
   cart: [],
+  country: [],
+  region: [],
   status: {
     loading: false,
     error: false,
@@ -20,6 +22,12 @@ const mutations = {
   },
   setCategory(state, item) {
     state.category.push(item);
+  },
+  setCountry(state, item) {
+    state.country.push(item);
+  },
+  setRegion(state, item) {
+    state.region.push(item);
   },
   setStatus(state, status) {
     state.status = status;
@@ -76,6 +84,48 @@ const actions = {
       commit("setStatus", { loading: false, error: true, message: message });
     }
   },
+  async getCountry({ commit }) {
+    try {
+      commit("setStatus", { loading: true, error: false, message: "" });
+      let { data } = await axios.get("http://sva.talana.com:8000/api/county/");
+      commit("setCountry", data);
+      commit("setStatus", { loading: false, error: false, message: "" });
+    } catch (error) {
+      let message = "An error has occurred";
+      if (error.response) {
+        message = error.response.data.message;
+      } else if (error.request) {
+        message =
+          "No response received from the server. If the problem persists contact the site administrator (" +
+          error.message +
+          ")";
+      } else {
+        message = error.message;
+      }
+      commit("setStatus", { loading: false, error: true, message: message });
+    }
+  },
+  async getRegion({ commit }) {
+    try {
+      commit("setStatus", { loading: true, error: false, message: "" });
+      let { data } = await axios.get("http://sva.talana.com:8000/api/region/");
+      commit("setRegion", data);
+      commit("setStatus", { loading: false, error: false, message: "" });
+    } catch (error) {
+      let message = "An error has occurred";
+      if (error.response) {
+        message = error.response.data.message;
+      } else if (error.request) {
+        message =
+          "No response received from the server. If the problem persists contact the site administrator (" +
+          error.message +
+          ")";
+      } else {
+        message = error.message;
+      }
+      commit("setStatus", { loading: false, error: true, message: message });
+    }
+  },
 };
 
 const getters = {
@@ -84,6 +134,12 @@ const getters = {
   },
   getCategory(state) {
     return state.category ? state.category : [];
+  },
+  getCountry(state) {
+    return state.country ? state.country : [];
+  },
+  getRegion(state) {
+    return state.region ? state.region : [];
   },
   getStatus(state) {
     return state.status;

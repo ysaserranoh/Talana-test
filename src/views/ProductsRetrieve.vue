@@ -5,18 +5,17 @@
     </v-col>
     <v-col cols="12" class="px-0" v-else>
       <v-toolbar color="transparent" flat height="55">
-        <v-toolbar-title class="text--secondary subtitle-1 font-weight-bold d-block">{{ (category || []).name || "Sin nombre" }}</v-toolbar-title>
+        <v-toolbar-title class="text--secondary subtitle-1 font-weight-bold d-block">{{ (category || []).name || "Todos los productos" }}</v-toolbar-title>
       </v-toolbar>
       <v-col class="py-0 px-4">
-        <router-link to="/" class="subtitle-1 routerLink font-weight-medium">Home</router-link>
+        <v-btn to="/" class="subtitle-1 routerLink text-capitalize font-weight-medium" text>Home</v-btn>
         <v-icon class="mx-1" color="secondary">mdi-chevron-right</v-icon>
-        <router-link to="/" class="subtitle-1 routerLink font-weight-medium">Products</router-link>
-        <v-icon class="mx-1" color="secondary">mdi-chevron-right</v-icon>Features
+        <v-btn :to="{ name: 'ProductsLists' }" class="subtitle-1 routerLink text-capitalize font-weight-medium">Products</v-btn>
+        <v-icon class="mx-1" color="secondary" text>mdi-chevron-right</v-icon>Features
       </v-col>
     </v-col>
     <!-- filter -->
     <v-col class="mt-n12 text-right">
-       <!-- <v-btn text @click.native="$emit('close')" color="secondary"><v-icon class="mx-1" color="secondary">mdi-filter</v-icon></v-btn> -->
        <filterProducts />
     </v-col>
     <!-- end filter -->
@@ -52,13 +51,18 @@
           <add-quantity-cart :currentItem="item" @open="modalProduct=true; currentItem = item" />
         </v-col>
       </v-row>
+      <v-col v-if="!getProducts.length" class="text-center py-12 white">
+        <v-icon class="mb-5" color="secondary" size="90">mdi-close-box</v-icon>
+        <span class="d-block body-1 text--secondary font-weight-medium">Aún no existen productos para esta categoría</span>
+        <v-btn class="mt-5" :to="{ name: 'ProductsLists' }" color="primary">Ir a todos los productos</v-btn>
+      </v-col>
     </v-col>
     <!-- modal product -->
     <v-dialog v-model="modalProduct" width="550" persistent no-click-animation>
       <dialog-product @close="modalProduct=false" :currentItem="currentItem" />
     </v-dialog>
     <!-- end modal product -->
-    <v-row class="mt-10" align="center" justify="center">
+    <v-row class="mt-10" align="center" justify="center" v-if="getProducts.length">
       <pagination />
     </v-row>
   </v-row>
@@ -86,7 +90,7 @@ export default {
       return this.getCategory[0].find(item => item.id == this.$route.params.id);
     },
     getProducts() {
-      return this.$route.query.item ? this.getProductSearch() : this.getItems;
+      return this.$route.query.item && this.$route.query.item !== 'summary' ? this.getProductSearch() : this.getItems;
     },
   },
   async created() {
@@ -95,7 +99,7 @@ export default {
 
   methods: {
     getProductSearch() {
-      if (this.$route.query.item) {
+      if (this.$route.query.item && this.$route.query.item !== 'summary') {
         return this.getItems.filter(
           (item) => item.name.toUpperCase().includes(this.$route.query.item.toUpperCase()) || item.category.name.toUpperCase().includes(this.$route.query.item.toUpperCase())
         );

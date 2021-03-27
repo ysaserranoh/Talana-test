@@ -15,22 +15,7 @@
             <span class="d-block mt-n1">${{ (item || {}).price || "" }}</span>
           </v-col>
           <v-col cols="3" class="pa-0 pl-6">
-            <v-row no-gutters align="center" justify="center">
-              <v-btn
-                class="ml-1"
-                @click="item.quantity -= 1"
-                text
-                x-small
-                color="primary"
-                ><v-icon small>mdi-minus</v-icon></v-btn>
-              {{ item.quantity }}
-              <v-btn
-                class="ml-1"
-                @click="item.quantity += 1"
-                text
-                x-small
-                color="primary"><v-icon small>mdi-plus</v-icon></v-btn>
-            </v-row>
+            <add-quantity-cart :currentItem="item" :show="true" />
           </v-col>
           <v-col cols="4" class="pa-0 text-right">
             <span class="mr-5">Sub-total: ${{ item.quantity * item.price }}</span>
@@ -56,7 +41,9 @@
 
 <script>
 import { mapGetters } from "vuex";
+import AddQuantityCart from "@/components/AddQuantityCart";
 export default {
+  components: { AddQuantityCart },
   computed: {
     ...mapGetters("store", ["getCart"]),
     total() {
