@@ -4,7 +4,10 @@
     <div class="d-flex flex-column">
       <v-row align="start" justify="center" no-gutters>
         <navigation-drawer />
-        <v-col cols="12" style="padding-left: 200px !important; padding-right: 35px !important">
+        <v-col
+          cols="12"
+          style="padding-left: 200px !important; padding-right: 35px !important"
+        >
           <v-main>
             <v-container fluid>
               <router-view :key="$route.fullPath"></router-view>

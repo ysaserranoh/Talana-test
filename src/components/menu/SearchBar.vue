@@ -24,33 +24,27 @@
           hide-details
         >
           <template v-slot:prepend-inner>
-            <v-row
-              class="text-center py-3 mr-2"
-              justify="center"
-              align="center"
-            >
-              <v-icon class="icon-autocomplete" color="secondary" size="20"
-                >mdi-magnify</v-icon
-              >
+            <v-row class="text-center py-3 mr-2" justify="center" align="center">
+              <v-icon class="icon-autocomplete" color="secondary" size="20">mdi-magnify</v-icon>
             </v-row>
           </template>
         </v-text-field>
       </template>
       <template>
         <v-col class="pa-0 red">
-          <v-list class="">
+          <v-list>
             <v-list-item class="my-0 mx-2 pa-1">
-              <v-list-item-title
-                class="subtitle-2 text--secondary font-weight-medium"
-                >Resultados para {{ search }}</v-list-item-title
-              >
+              <v-list-item-title class="subtitle-2 text--secondary font-weight-medium">Resultados para {{ search }}</v-list-item-title>
             </v-list-item>
             <template v-for="item in filtred">
-              <v-list-item :key="item.id" class="my-0 mx-2 pa-1" dense @click="goTo()">
+              <v-list-item
+                :key="item.id"
+                class="my-0 mx-2 pa-1"
+                dense
+                @click="goTo()"
+              >
                 <v-list-item-title>
-                  <span class="subtitle-2 text--secondary font-weight-medium">{{
-                    item.name
-                  }}</span>
+                  <span class="subtitle-2 text--secondary font-weight-medium">{{item.name}}</span>
                 </v-list-item-title>
               </v-list-item>
             </template>
@@ -58,12 +52,8 @@
         </v-col>
         <v-col v-if="!filtred.length" class="text-center py-12 white">
           <v-icon class="mb-5" color="secondary" size="40">mdi-magnify</v-icon>
-          <span class="d-block body-1 text--secondary font-weight-medium"
-            >No se han encontrado resultados para tu búsqueda</span
-          >
-          <span class="d-block"
-            >Inténtalo de nuevo con una búsqueda diferente</span
-          >
+          <span class="d-block body-1 text--secondary font-weight-medium">No se han encontrado resultados para tu búsqueda</span>
+          <span class="d-block">Inténtalo de nuevo con una búsqueda diferente</span>
         </v-col>
       </template>
     </v-menu>
@@ -75,7 +65,6 @@ import debounce from "lodash/debounce";
 export default {
   data: () => ({
     search: "",
-    loader: false,
     menu: false,
     filtred: [],
   }),
@@ -94,7 +83,6 @@ export default {
       }
       this.menu = true;
       this.getSearch();
-      console.log(this.getProducts);
     }, 600),
   },
   methods: {

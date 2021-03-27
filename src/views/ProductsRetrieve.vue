@@ -2,7 +2,7 @@
   <v-row v-if="getItems.length">
     <v-col cols="12" class="px-0">
       <v-toolbar color="transparent" flat height="55">
-        <v-toolbar-title class="text--secondary subtitle-1 font-weight-medium d-block"  >{{ (category || []).name || "" }}</v-toolbar-title>
+        <v-toolbar-title class="text--secondary subtitle-1 font-weight-medium d-block">{{ (category || []).name || "" }}</v-toolbar-title>
       </v-toolbar>
       <v-col class="py-0 px-4">
         <router-link to="/" class="subtitle-1 routerLink font-weight-medium">Home</router-link>
@@ -16,7 +16,7 @@
         <v-col
           style="width: 280px; flex-grow: 0 !important"
           v-for="item in getProducts"
-          :key="item.title"
+          :key="item.id"
         >
           <v-card
             class="pa-0"
@@ -25,13 +25,14 @@
             min-height="300"
             :ripple="false"
             style="border: 1px solid #ccc"
+            @click="modalProduct=true; currentItem = item"
+            :disabled="item.stock === 0"
           >
             <v-card-text>
               <v-container fluid class="pt-5 pb-0 text-center">
                 <img :src="item.photo" height="200" />
                 <v-subheader v-if="item.stock > 0" class="grey lighten-3">Disponible</v-subheader>
-                <v-subheader v-else class="grey lighten-1">Sin stock</v-subheader
-                >
+                <v-subheader v-else class="grey lighten-1">Sin stock</v-subheader>
               </v-container>
             </v-card-text>
           </v-card>
@@ -39,33 +40,13 @@
             <span class="d-block text--secondary subtitle-1 font-weight-medium">{{ item.name }}</span>
             <span class="d-block text--secondary subtitle-1 font-weight-medium">{{ item.price }}</span>
           </v-col>
-          <v-row class="mx-1" align="center" justify="center" style="border: 1px solid #ccc">
-            <v-col cols="5" class="">
-              <v-row align="center" justify="center">
-                <v-btn class="ml-1" @click="quantity -= 1" text x-small color="primary">
-                  <v-icon small>mdi-minus</v-icon>
-                </v-btn>
-                {{ quantity }}
-                <v-btn class="ml-1" @click="quantity += 1" text x-small color="primary">
-                  <v-icon small>mdi-plus</v-icon>
-                </v-btn>
-              </v-row>
-            </v-col>
-            <v-col class="mx-auto orange">
-              <v-btn
-                @click="modalProduct = true; currentItem = item;" text color="white"><v-icon>mdi-cart-plus</v-icon></v-btn>
-            </v-col>
-          </v-row>
+          <add-quantity-cart :currentItem="item" @open="modalProduct=true; currentItem = item" />
         </v-col>
       </v-row>
     </v-col>
     <!-- modal product -->
     <v-dialog v-model="modalProduct" width="550" persistent no-click-animation>
-      <dialog-product
-        @close="modalProduct = false"
-        :currentItem="currentItem"
-        :quantity="quantity"
-      />
+      <dialog-product @close="modalProduct=false" :currentItem="currentItem" />
     </v-dialog>
     <!-- end modal product -->
   </v-row>
@@ -73,19 +54,17 @@
 <script>
 import { mapGetters } from "vuex";
 import DialogProduct from "@/components/DialogProduct";
+import AddQuantityCart from "@/components/AddQuantityCart";
 export default {
-  components: { DialogProduct },
+  components: { DialogProduct, AddQuantityCart },
   data: () => ({
     currentItem: {},
-    quantity: 1,
     modalProduct: false,
   }),
   computed: {
     ...mapGetters("store", ["getItems", "getCategory"]),
     category() {
-      return this.getCategory[0].find(
-        (item) => item.id === this.$route.params.id
-      );
+      return this.getCategory[0].find(item => item.id === this.$route.params.id);
     },
     getProducts() {
       return this.$route.query.item ? this.getProductSearch() : this.getItems;
@@ -96,17 +75,13 @@ export default {
   },
 
   methods: {
-     getProductSearch() {
+    getProductSearch() {
       if (this.$route.query.item) {
-        return this.getItems.filter((item) =>
-           item.name.toUpperCase().includes(this.$route.query.item.toUpperCase()) ||
-            item.category.name.toUpperCase().includes(this.$route.query.item.toUpperCase())
+        return this.getItems.filter(
+          (item) => item.name.toUpperCase().includes(this.$route.query.item.toUpperCase()) || item.category.name.toUpperCase().includes(this.$route.query.item.toUpperCase())
         );
       }
-    },
-    AddProducttoCart() {
-
-    },
+    }
   },
 };
 </script>

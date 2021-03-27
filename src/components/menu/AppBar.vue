@@ -15,24 +15,32 @@
       </v-toolbar-title>
       <v-spacer />
       <search-bar />
-      <v-bottom-navigation class="elevation-0 transparent" width="50">
-        <v-btn @click="modalSummary=true">
-          <span>Bolsa</span>
-          <v-badge :content="badge" :value="badge" color="red" offset-y="18" offset-x="10">
-            <v-icon class="text--secondary" size="26"> mdi-purse</v-icon>
-          </v-badge>
-        </v-btn>
-      </v-bottom-navigation>
+      <v-bottom-navigation class="elevation-0 transparent my-2" width="50">
+        <v-menu
+          v-model="menu"
+          :close-on-content-click="false"
+          :nudge-width="450"
+          offset-x
+          nudge-bottom="60"
+        >
+          <template v-slot:activator="{ on, attrs }">
+              <v-btn v-bind="attrs" v-on="on" text>
+              <span>Bolsa</span>
+              <v-badge
+                :content="badge"
+                :value="badge"
+                color="red"
+                offset-y="18"
+                offset-x="10"
+              >
+                <v-icon class="text--secondary" size="26"> mdi-purse</v-icon>
+              </v-badge>
+              </v-btn>
+          </template>
+          <DialogPurchaseSummary />
+        </v-menu>
+       </v-bottom-navigation>
     </v-app-bar>
-    <!-- modal summary -->
-    <v-dialog v-model="modalSummary" width="550" persistent no-click-animation>
-      <dialog-purchase-summary
-        @close="modalSummary = false"
-        :currentItem="null"
-        :quantity="0"
-      />
-    </v-dialog>
-    <!-- end modal summary -->
   </div>
 </template>
 <script>
@@ -42,20 +50,16 @@ import DialogPurchaseSummary from "@/components/DialogPurchaseSummary";
 export default {
   components: {
     SearchBar,
-    DialogPurchaseSummary
+    DialogPurchaseSummary,
   },
   data: () => ({
-    modalSummary: false
+    menu: false,
   }),
   computed: {
     ...mapGetters("store", ["getItems", "getCart"]),
-    badge () {
-      return  this.getCart.length ? this.getCart.length : '0'
-    }
-  },
-  async created () {
-    await this.$store.dispatch("store/getCart");
-    console.log('getCart', this.getCart.length)
+    badge() {
+      return this.getCart.length ? this.getCart.length : "0";
+    },
   }
 };
 </script>

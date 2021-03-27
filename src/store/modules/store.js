@@ -30,6 +30,10 @@ const actions = {
     try {
       commit("setStatus", { loading: true, error: false, message: "" });
       let { data } = await axios.get("http://sva.talana.com:8000/api/product/");
+      data.forEach((item) => {
+        item.quantity = 1;
+      });
+      // data.push(quantity)
       commit("setItems", data);
       commit("setStatus", { loading: false, error: false, message: "" });
     } catch (error) {
@@ -87,7 +91,7 @@ const getters = {
   },
   getCart(state) {
     return state.cart ? state.cart : [];
-  }
+  },
 };
 
 export default {

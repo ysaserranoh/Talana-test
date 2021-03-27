@@ -19,15 +19,15 @@
           <v-list class="py-0 v-list-form">
             <v-list-item>
               <v-list-item-title>Nombre</v-list-item-title>
-              <v-list-item-subtitle>{{currentItem.name}}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{ currentItem.name }}</v-list-item-subtitle>
             </v-list-item>
             <v-list-item class="my-n3">
               <v-list-item-title>Codigo</v-list-item-title>
-              <v-list-item-subtitle>{{currentItem.code}}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{ currentItem.code }}</v-list-item-subtitle>
             </v-list-item>
             <v-list-item>
               <v-list-item-title>Precio</v-list-item-title>
-              <v-list-item-subtitle>{{currentItem.price}}</v-list-item-subtitle>
+              <v-list-item-subtitle>{{ currentItem.price }}</v-list-item-subtitle>
             </v-list-item>
             <v-list-item class="my-n3">
               <v-list-item-title>Cantidad</v-list-item-title>
@@ -42,16 +42,16 @@
                     <v-row align="center" justify="center">
                       <v-btn
                         class="ml-1"
-                        @click="quantity -= 1"
+                        @click="currentItem.quantity -= 1"
                         text
                         x-small
                         color="primary"
                         ><v-icon small>mdi-minus</v-icon></v-btn
                       >
-                      {{ quantity }}
+                      {{ currentItem.quantity }}
                       <v-btn
                         class="ml-1"
-                        @click="quantity += 1"
+                        @click="currentItem.quantity += 1"
                         text
                         x-small
                         color="primary"
@@ -67,7 +67,7 @@
             </v-list-item>
             <v-list-item class="py-1">
               <v-list-item-title>Sub-total</v-list-item-title>
-              <v-list-item-subtitle class="font-weight-medium">${{ quantity * currentItem.price }}</v-list-item-subtitle>
+              <v-list-item-subtitle class="font-weight-medium">${{ currentItem.quantity * currentItem.price }}</v-list-item-subtitle>
             </v-list-item>
           </v-list>
         </v-col>
@@ -78,7 +78,7 @@
     <v-card-actions class="pa-4">
       <v-spacer />
       <v-btn @click.native="$emit('close')" outlined color="secondary">Seguir comprando</v-btn>
-      <v-btn @click="AddProducttoCart(); $emit('close')" color="primary" dark>Agregar al carro</v-btn>
+      <v-btn @click="AddProducttoCart(); $emit('close');" color="primary" dark>Agregar al carro</v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -91,20 +91,12 @@ export default {
       default: () => {
         return null;
       },
-    },
-    quantity: {
-      type: Number,
-      default: () => {
-        return null;
-      },
-    },
+    }
   },
-  data: () => ({}),
   methods: {
     AddProducttoCart() {
       this.$store.dispatch("store/addToCart", this.currentItem);
-      console.log('AddProducttoCart Dialog Product', this.currentItem)
-    }
-  }
+    },
+  },
 };
 </script>
