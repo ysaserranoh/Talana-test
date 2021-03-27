@@ -17,8 +17,7 @@
     </v-list-item>
     <v-divider />
     <v-list-item class="ml-2">
-      <v-list-item-title class="title subtitle-1 font-weight-medium"
-        >Categorías
+      <v-list-item-title class="title subtitle-1 font-weight-medium">Categorías
       </v-list-item-title>
       <v-list-item-icon>
         <v-icon>mdi-menu</v-icon>
@@ -30,14 +29,20 @@
       <v-list-item
         v-for="item in getCategory[0]"
         :key="item.name"
-        exact
-        @click="goToDetails(item.id)"
-        class="my-n3"
+        :to="{ name: 'CategoryProductRetrieve', params: { id: `${item.id}`} }"
+        style="min-height: 20px"
+        active-class="primary--text"
       >
-        <v-list-item-content>
+        <v-list-item-content >
           <v-list-item-title>
-            {{ item.name }}
-            <v-icon>mdi-chevron-right</v-icon>
+            <v-row no-gutters>
+              <v-col cols="10" class="pa-0">
+                {{ item.name }}
+              </v-col>
+              <v-col cols="1" class="pa-0">
+                <v-icon class="mt-n1" v-if="selected === `/products/category/${item.id}`">mdi-chevron-right</v-icon>
+              </v-col>
+            </v-row>
           </v-list-item-title>
         </v-list-item-content>
       </v-list-item>
@@ -50,6 +55,7 @@ import { mapGetters } from "vuex";
 export default {
   data: () => ({
     loading: false,
+    selected: ''
   }),
   computed: {
     ...mapGetters("store", ["getCategory"]),
@@ -58,17 +64,13 @@ export default {
     await this.$store.dispatch("store/getCategory");
     this.loading = false;
   },
-  methods: {
-    goToDetails(id) {
-      this.$router
-        .push({
-          name: "CategoryProductRetrieve",
-          params: {
-            id: id,
-          },
-        })
-        .catch((err) => err);
-    },
-  },
+  watch: {
+    $route: {
+      immediate: false,
+      handler: function (val) {
+        this.selected = val.path;
+      },
+    }
+  }
 };
 </script>

@@ -132,41 +132,22 @@ hr
     background: transparent
 // END BUTTONS
 
-// PAGINATION
-+theme(v-pagination) using ($material)
-  .v-pagination__item
-    background-color: map-get($material, 'bg-color') !important
-    color: map-deep-get($material, 'text', 'primary')
-    &:hover
-      color: map-deep-get($material, 'text', 'link')
-    &--active
-      background-color: map-get($material, 'bg-color') !important
-      color: map-deep-get($material, 'text', 'link')
-  .v-icon
-    color: map-deep-get($material, 'text', 'primary')
-
-.v-pagination
-  justify-content: flex-end
-
-.v-pagination__item
-  outline: none
-  box-shadow: none !important
-  &:hover
-    font-weight: 600
-  &--active
-    font-weight: 600
-
-.v-pagination__navigation
-  outline: none
-  box-shadow: none !important
-// END PAGINATION
-
 .v-list-form
   .v-list-item__title
-    flex: 40%
+    flex: 30%
 
 .v-list-form
   .v-list-item__subtitle
-    flex: 60%
+    flex: 70%
     .col
       padding: 0
+
+.routerLink.v-btn:before
+  background-color: #ffffff
+
+.routerLink
+  color: #D84315 !important
+  text-decoration: none
+
+.routerLink:hover
+  color: #757575 !important

@@ -38,31 +38,8 @@
                   justify="center"
                   style="border: 1px solid #ccc"
                 >
-                  <v-col cols="6" class="py-0">
-                    <v-row align="center" justify="center">
-                      <v-btn
-                        class="ml-1"
-                        @click="currentItem.quantity -= 1"
-                        text
-                        x-small
-                        color="primary"
-                        ><v-icon small>mdi-minus</v-icon></v-btn
-                      >
-                      {{ currentItem.quantity }}
-                      <v-btn
-                        class="ml-1"
-                        @click="currentItem.quantity += 1"
-                        text
-                        x-small
-                        color="primary"
-                        ><v-icon small>mdi-plus</v-icon></v-btn
-                      >
-                    </v-row>
-                  </v-col>
-                  <v-col cols="5" class="pa-0 primary">
-                    <v-btn height="50" text color="white" style="cursor: none"><v-icon class="ml-n1" size="22">mdi-cart-plus</v-icon></v-btn>
-                  </v-col>
-                </v-row>
+                  <add-quantity-cart :currentItem="currentItem" />
+                </v-row> 
               </v-list-item-subtitle>
             </v-list-item>
             <v-list-item class="py-1">
@@ -84,7 +61,9 @@
 </template>
 
 <script>
+import AddQuantityCart from "@/components/AddQuantityCart";
 export default {
+  components: { AddQuantityCart },
   props: {
     currentItem: {
       type: Object,
@@ -96,6 +75,7 @@ export default {
   methods: {
     AddProducttoCart() {
       this.$store.dispatch("store/addToCart", this.currentItem);
+      console.log('DSD', this.currentItem)
     },
   },
 };

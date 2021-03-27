@@ -33,7 +33,6 @@ const actions = {
       data.forEach((item) => {
         item.quantity = 1;
       });
-      // data.push(quantity)
       commit("setItems", data);
       commit("setStatus", { loading: false, error: false, message: "" });
     } catch (error) {

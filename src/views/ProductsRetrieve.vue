@@ -1,8 +1,11 @@
 <template>
-  <v-row v-if="getItems.length">
-    <v-col cols="12" class="px-0">
+  <v-row>
+    <v-col cols="12" v-if="!getItems.length">
+      <v-skeleton-loader class="mt-5" v-bind="attrs" type="date-picker" />
+    </v-col>
+    <v-col cols="12" class="px-0" v-else>
       <v-toolbar color="transparent" flat height="55">
-        <v-toolbar-title class="text--secondary subtitle-1 font-weight-medium d-block">{{ (category || []).name || "" }}</v-toolbar-title>
+        <v-toolbar-title class="text--secondary subtitle-1 font-weight-bold d-block">{{ (category || []).name || "Sin nombre" }}</v-toolbar-title>
       </v-toolbar>
       <v-col class="py-0 px-4">
         <router-link to="/" class="subtitle-1 routerLink font-weight-medium">Home</router-link>
@@ -11,6 +14,12 @@
         <v-icon class="mx-1" color="secondary">mdi-chevron-right</v-icon>Features
       </v-col>
     </v-col>
+    <!-- filter -->
+    <v-col class="mt-n12 text-right">
+       <!-- <v-btn text @click.native="$emit('close')" color="secondary"><v-icon class="mx-1" color="secondary">mdi-filter</v-icon></v-btn> -->
+       <filterProducts />
+    </v-col>
+    <!-- end filter -->
     <v-col cols="12" class="mx-11">
       <v-row aling="center" justify="start" class="mx-0">
         <v-col
@@ -49,22 +58,32 @@
       <dialog-product @close="modalProduct=false" :currentItem="currentItem" />
     </v-dialog>
     <!-- end modal product -->
+    <v-row class="mt-10" align="center" justify="center">
+      <pagination />
+    </v-row>
   </v-row>
 </template>
 <script>
 import { mapGetters } from "vuex";
 import DialogProduct from "@/components/DialogProduct";
 import AddQuantityCart from "@/components/AddQuantityCart";
+import Pagination from "@/components/Pagination";
+import FilterProducts from "@/components/FilterProducts";
 export default {
-  components: { DialogProduct, AddQuantityCart },
+  components: { DialogProduct, AddQuantityCart, Pagination, FilterProducts },
   data: () => ({
     currentItem: {},
     modalProduct: false,
+    attrs: {
+      class: 'mb-6',
+      boilerplate: true,
+      elevation: 2,
+    },
   }),
   computed: {
     ...mapGetters("store", ["getItems", "getCategory"]),
     category() {
-      return this.getCategory[0].find(item => item.id === this.$route.params.id);
+      return this.getCategory[0].find(item => item.id == this.$route.params.id);
     },
     getProducts() {
       return this.$route.query.item ? this.getProductSearch() : this.getItems;
