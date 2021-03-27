@@ -18,7 +18,7 @@
             <add-quantity-cart :currentItem="item" :show="true" />
           </v-col>
           <v-col cols="4" class="pa-0 text-right">
-            <span class="mr-5">Sub-total: ${{ item.quantity * item.price }}</span>
+            <span class="mr-5">Sub-total: ${{ (item.quantity * item.price) > 0 ? item.quantity * item.price : '0' }}</span>
           </v-col>
         </v-row>
         <v-row class="mt-8 mb-2">
@@ -26,7 +26,7 @@
             <span class="d-block font-weight-bold">Total</span>
           </v-col>
           <v-col cols="6" class="pa-0 pr-3 text-right">
-            <span class="font-weight-bold">${{ total }}</span>
+            <span class="font-weight-bold">${{ total > 0 ? total : '0' }}</span>
           </v-col>
         </v-row>
       </template>

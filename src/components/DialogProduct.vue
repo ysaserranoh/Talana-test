@@ -44,7 +44,7 @@
             </v-list-item>
             <v-list-item class="py-1">
               <v-list-item-title>Sub-total</v-list-item-title>
-              <v-list-item-subtitle class="font-weight-medium">${{ currentItem.quantity * currentItem.price }}</v-list-item-subtitle>
+              <v-list-item-subtitle class="font-weight-medium">${{ (currentItem.quantity * currentItem.price) > 0 ? currentItem.quantity * currentItem.price : '0' }}</v-list-item-subtitle>
             </v-list-item>
           </v-list>
         </v-col>
