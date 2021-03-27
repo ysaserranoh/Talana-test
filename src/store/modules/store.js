@@ -15,7 +15,7 @@ const mutations = {
   setItems(state, items) {
     state.items = items;
   },
-  AddToCart(state, item) {
+  setCart(state, item) {
     state.cart.push(item);
   },
   setCategory(state, item) {
@@ -48,7 +48,7 @@ const actions = {
     }
   },
   addToCart({ commit }, item) {
-    commit("addToCart", item);
+    commit("setCart", item);
   },
   async getCategory({ commit }) {
     try {
@@ -85,6 +85,9 @@ const getters = {
   getStatus(state) {
     return state.status;
   },
+  getCart(state) {
+    return state.cart ? state.cart : [];
+  }
 };
 
 export default {
